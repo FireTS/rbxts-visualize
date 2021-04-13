@@ -1,4 +1,4 @@
-interface ConfigureSettings {
+export interface ConfigureSettings {
 	/**
 	 * Whether this module should draw the visualized points.
 	 */
@@ -56,11 +56,11 @@ interface ConfigureSettings {
 	cacheAdornments: boolean;
 }
 
-interface Swappable<T extends Instance = Instance> {
+export interface Swappable<T extends Instance = Instance> {
 	used: Array<T>;
 	unused: Array<T>;
 }
 
-type HandleAdornments = {
+export type HandleAdornments = {
 	[k in keyof CreatableInstances]: CreatableInstances[k] extends HandleAdornment ? k : never;
 }[keyof CreatableInstances];

@@ -1,5 +1,6 @@
 import Object from "@rbxts/object-utils";
 import { RunService, Workspace } from "@rbxts/services";
+import { ConfigureSettings, HandleAdornments, Swappable } from "types";
 
 export namespace Visualize {
 	const swappableArrays = new Array<Swappable>();
