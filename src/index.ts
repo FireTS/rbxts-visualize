@@ -14,6 +14,7 @@ export namespace Visualize {
 		transparency: 0.5,
 		cframeLength: 1,
 		cacheAdornments: false,
+		vectorLine: false,
 	};
 
 	function createHandleAdornment<T extends HandleAdornments>(className: T) {
@@ -41,28 +42,46 @@ export namespace Visualize {
 		return config.cacheAdornments ? swappable.unused.pop() : undefined;
 	}
 
+	const vectors = createSwappable<ConeHandleAdornment | CylinderHandleAdornment>();
+	const points = createSwappable<SphereHandleAdornment>();
+	const lines = createSwappable<CylinderHandleAdornment>();
+
+	/**
+	 * Override the default Visualize settings.
+	 */
 	export function configure(newConfig: Partial<ConfigureSettings>) {
 		Object.assign(config, newConfig);
 	}
 
-	const vectors = createSwappable<ConeHandleAdornment>();
+	/**
+	 * Render a direction Vector3
+	 * @param origin The origin of the vector.
+	 * @param direction The direction of the vector.
+	 * @param color An optional color.
+	 */
 	export function vector(origin: Vector3, direction: Vector3, color = config.color) {
 		if (!config.enabled) return;
 
+		let offset = 0;
 		let adornment = pop(vectors);
 		if (!adornment) {
-			adornment = createHandleAdornment("ConeHandleAdornment");
+			adornment = createHandleAdornment(config.vectorLine ? "CylinderHandleAdornment" : "ConeHandleAdornment");
 			adornment.Height = math.max(direction.Magnitude, 1);
 			adornment.Radius = config.vectorRadius;
+			offset = config.vectorLine ? direction.Magnitude / 2 : 0;
 		}
 
-		adornment.CFrame = CFrame.lookAt(origin, origin.add(direction));
+		adornment.CFrame = CFrame.lookAt(origin, origin.add(direction)).mul(new CFrame(0, 0, -offset));
 		adornment.Color3 = color;
 
 		vectors.used.push(adornment);
 	}
 
-	const points = createSwappable<SphereHandleAdornment>();
+	/**
+	 * Render a single position as a point
+	 * @param origin The point's location.
+	 * @param color An optional color.
+	 */
 	export function point(origin: Vector3, color = config.color) {
 		if (!config.enabled) return;
 
@@ -78,7 +97,12 @@ export namespace Visualize {
 		points.used.push(adornment);
 	}
 
-	const lines = createSwappable<CylinderHandleAdornment>();
+	/**
+	 * Draw a line between two points
+	 * @param start The start of the line.
+	 * @param finish The end of the line.
+	 * @param color An optional color.
+	 */
 	export function line(start: Vector3, finish: Vector3, color = config.color) {
 		if (!config.enabled) return;
 
@@ -96,6 +120,12 @@ export namespace Visualize {
 		lines.used.push(adornment);
 	}
 
+	/**
+	 * Render a CFrame.
+	 * Equivalent to: Visualize.vector(pos, lookVector, color)
+	 * @param cframe The CFrame to render.
+	 * @param color An optional color.
+	 */
 	export function cframe(cframe: CFrame, color = config.color) {
 		vector(cframe.Position, cframe.LookVector.mul(config.cframeLength), color);
 	}
