@@ -23,6 +23,7 @@ export namespace Visualize {
 		instance.AlwaysOnTop = config.alwaysOnTop;
 		instance.Color3 = config.color;
 		instance.Visible = true;
+		instance.ZIndex = 2;
 		instance.Adornee = Workspace.Terrain;
 		instance.Parent = Workspace.Terrain;
 		return instance;

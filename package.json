@@ -1,6 +1,6 @@
 {
   "name": "@rbxts/visualize",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A package for easily visualizing various information.",
   "main": "out/init.lua",
   "scripts": {
