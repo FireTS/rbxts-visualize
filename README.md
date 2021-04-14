@@ -7,7 +7,15 @@
 
 ## Example Usage
 ```typescript
+// Imports the global Visualizer.
+// Disabling the global Visualizer will disable all Visualizers.
 import { Visualize } from "@rbxts/visualize";
+
+// You can also create a new Visualizer with separate settings.
+import { Visualizer } from "@rbxts/visualize";
+const visualizer = new Visualizer({
+	alwaysOnTop: false
+})
 
 // Visualizations are cleared after 1 frame automatically.
 game.GetService("RunService").Heartbeat.Connect(() => {
@@ -26,7 +34,7 @@ game.GetService("RunService").Heartbeat.Connect(() => {
 ```
 
 ## Configuration
-You can override the global settings for rendering using `Visualize.configure()`
+You can override the settings for rendering using `Visualizer.configure()`
 The following settings are exposed:
 ```typescript
 interface ConfigureSettings {
@@ -89,6 +97,9 @@ interface ConfigureSettings {
 ```
 
 ## Changelog
+
+### 1.1.0
+- Added Visualizer class
 
 ### 1.0.0
 - Inital release
