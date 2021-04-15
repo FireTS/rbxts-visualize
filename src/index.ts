@@ -13,7 +13,7 @@ export class Visualizer {
 		lineInnerRadius: 0,
 		transparency: 0.5,
 		cframeLength: 1,
-		cacheAdornments: false,
+		cacheAdornments: true,
 		vectorLine: false,
 	};
 
@@ -88,15 +88,15 @@ export class Visualizer {
 	vector(origin: Vector3, direction: Vector3, color = this.config.color) {
 		if (!this.config.enabled || !Visualize.config.enabled) return;
 
-		let offset = 0;
 		let adornment = this.pop(this.vectors);
 		if (!adornment) {
 			const adornmentType = this.config.vectorLine ? "CylinderHandleAdornment" : "ConeHandleAdornment";
 			adornment = this.createHandleAdornment(adornmentType);
-			adornment.Height = math.max(direction.Magnitude, 1);
-			adornment.Radius = this.config.vectorRadius;
-			offset = this.config.vectorLine ? direction.Magnitude / 2 : 0;
 		}
+
+		const offset = this.config.vectorLine ? direction.Magnitude / 2 : 0;
+		adornment.Height = math.max(direction.Magnitude, 1);
+		adornment.Radius = this.config.vectorRadius;
 
 		adornment.CFrame = CFrame.lookAt(origin, origin.add(direction)).mul(new CFrame(0, 0, -offset));
 		adornment.Color3 = color;
@@ -115,8 +115,9 @@ export class Visualizer {
 		let adornment = this.pop(this.points);
 		if (!adornment) {
 			adornment = this.createHandleAdornment("SphereHandleAdornment");
-			adornment.Radius = this.config.pointRadius;
 		}
+
+		adornment.Radius = this.config.pointRadius;
 
 		adornment.CFrame = new CFrame(origin);
 		adornment.Color3 = color;
@@ -136,10 +137,11 @@ export class Visualizer {
 		let adornment = this.pop(this.lines);
 		if (!adornment) {
 			adornment = this.createHandleAdornment("CylinderHandleAdornment");
-			adornment.Height = start.sub(finish).Magnitude;
-			adornment.Radius = this.config.lineRadius;
-			adornment.InnerRadius = this.config.lineInnerRadius;
 		}
+
+		adornment.Height = start.sub(finish).Magnitude;
+		adornment.Radius = this.config.lineRadius;
+		adornment.InnerRadius = this.config.lineInnerRadius;
 
 		adornment.CFrame = CFrame.lookAt(start, finish).mul(new CFrame(0, 0, -start.sub(finish).Magnitude / 2));
 		adornment.Color3 = color;

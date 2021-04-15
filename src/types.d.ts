@@ -51,7 +51,6 @@ export interface ConfigureSettings {
 
 	/**
 	 * Whether to reuse cached adornments.
-	 * This can cause flickering, so it's disabled by default.
 	 */
 	cacheAdornments: boolean;
 }
