@@ -97,6 +97,9 @@ interface ConfigureSettings {
 
 ## Changelog
 
+### 1.1.1
+- Fixed adornment caching (now enabled by default)
+
 ### 1.1.0
 - Added Visualizer class
 
